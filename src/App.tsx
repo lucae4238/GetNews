@@ -1,25 +1,44 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Input } from "@material-ui/core";
+import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getNews } from "./Actions/newsActions";
+import { RootStore } from "./store";
+import { MyTable } from "./Table";
+// import {Link} from 'react-router-dom'
 
 function App() {
+  const articles = useSelector((state: RootStore) => state.articles);
+  const loading = useSelector((state: RootStore) => state.loading);
+  const dispatch = useDispatch();
+  const [input, setInput] = useState("");
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(e.target.value);
+    console.log(articles[0])
+  };
+  
+  useEffect(() => {
+    dispatch(getNews());
+  }, [dispatch]);
+
+  if (loading) {
+    return <>loading...</>;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Input
+        placeholder="search AI related news!"
+        autoFocus={true}
+        color="primary"
+        type="text"
+        value={input}
+        onChange={handleInputChange}
+      />
+      <MyTable array={articles.filter(e => e.title.toLowerCase().includes(input.toLowerCase()) || e.content.toLowerCase().includes(input.toLowerCase()))} />
+    </>
   );
 }
 
