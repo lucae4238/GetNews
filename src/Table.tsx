@@ -9,41 +9,56 @@ import {
   TableHead,
   TableRow,
   TableSortLabel,
+  makeStyles
 } from "@material-ui/core";
 import { useState } from "react";
 import sortByDate from "./SortFunctions/SortByDate";
+import PageButtons from "./PageButtons";
 
 export type directionI = "asc" | "desc";
 
-interface Props {
+export interface PropsI {
   array: articleI[];
 }
 
 
-export const MyTable = (props: Props) => {
+export const MyTable = (props: PropsI) => {
   const [direction, setDirection] = useState<directionI>("asc");
   const [bool, setBool] = useState<boolean>(false);
+  const [page, setPage] = useState<number>(0)
   const handleSort = () => {
     setBool(true)
     direction === "asc" ? setDirection("desc") : setDirection("asc");
     sortByDate(props.array, direction);
   };
+  let list = props.array
+  if(props.array.length > 10){
+    list = props.array.slice(page, page + 10)
+  }
+let buttonlist: any[] = PageButtons({array: props.array, action: setPage})
+
+  const useStyles = makeStyles({
+    table: {
+      maxWidth: 1250,
+    },
+  });
+  const classes = useStyles();
   return (
     <>
-      <TableContainer>
-        <Table>
+      <TableContainer >
+        <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell>
+              <TableCell width="20%">
                 <TableSortLabel>Image</TableSortLabel>
               </TableCell>
-              <TableCell>
+              <TableCell width="20%">
                 <TableSortLabel>Source</TableSortLabel>
               </TableCell>
-              <TableCell>
+              <TableCell width="20%">
                 <TableSortLabel>Author</TableSortLabel>
               </TableCell>
-              <TableCell>
+              <TableCell width="20%">
                 <TableSortLabel>Title</TableSortLabel>
               </TableCell>
               <TableCell>
@@ -51,7 +66,6 @@ export const MyTable = (props: Props) => {
                   active={bool}
                   direction={direction}
                   onClick={handleSort}
-                  style={{ width: "100" }}
                 >
                   Date
                 </TableSortLabel>
@@ -62,22 +76,22 @@ export const MyTable = (props: Props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.array &&
-              props.array.map(
+            {list &&
+              list.map(
                 ({ title, source, author, url, publishedAt, urlToImage }) => (
                   <TableRow key={url}>
-                    <TableCell ><img src={urlToImage} width='20%' alt={title}/></TableCell>
+                    <TableCell ><img src={urlToImage} width='50%' alt={title}/></TableCell>
                     <TableCell>{source.name}</TableCell>
                     <TableCell>{author}</TableCell>
                     <TableCell>{title}</TableCell>
-                    <TableCell>
+                    <TableCell width="max-content">
                       {publishedAt.substr(0, publishedAt.indexOf("T"))}
                     </TableCell>
                     <TableCell>
                       <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => (window.location.href = url)}
+                        href={url}
                       >
                         URL
                       </Button>
@@ -88,6 +102,9 @@ export const MyTable = (props: Props) => {
           </TableBody>
         </Table>
       </TableContainer>
+      {
+        buttonlist
+      }
     </>
   );
 };

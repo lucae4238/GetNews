@@ -1,12 +1,10 @@
-import { Input } from "@material-ui/core";
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import { Grid, TextField } from "@material-ui/core";
+
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getNews } from "./Actions/newsActions";
 import { RootStore } from "./store";
 import { MyTable } from "./Table";
-// import {Link} from 'react-router-dom'
 
 function App() {
   const articles = useSelector((state: RootStore) => state.articles);
@@ -16,9 +14,8 @@ function App() {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
-    console.log(articles[0])
   };
-  
+
   useEffect(() => {
     dispatch(getNews());
   }, [dispatch]);
@@ -28,17 +25,29 @@ function App() {
   }
 
   return (
-    <>
-      <Input
-        placeholder="search AI related news!"
-        autoFocus={true}
-        color="primary"
-        type="text"
-        value={input}
-        onChange={handleInputChange}
-      />
-      <MyTable array={articles.filter(e => e.title.toLowerCase().includes(input.toLowerCase()) || e.content.toLowerCase().includes(input.toLowerCase()))} />
-    </>
+    <Grid container justify="center" spacing={2} alignItems="center" direction="column">
+      <hr />
+      <Grid item>
+        <TextField
+
+          placeholder="search AI related news!"
+          autoFocus={true}
+          value={input}
+          onChange={handleInputChange}
+          // fullWidth={true}
+          margin="dense"
+        />
+      </Grid>
+      <Grid item>
+        <MyTable
+          array={articles.filter(
+            (e) =>
+              e.title.toLowerCase().includes(input.toLowerCase()) ||
+              e.content.toLowerCase().includes(input.toLowerCase())
+          )}
+        />
+      </Grid>
+    </Grid>
   );
 }
 
