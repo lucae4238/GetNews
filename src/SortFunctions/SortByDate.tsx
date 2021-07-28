@@ -1,5 +1,5 @@
 import { articleI } from "../Redux/Actions/newsActionTypes";
-import { directionI } from "../Components/Table";
+import { directionI } from "../Components/Table/Table";
 export const sortByDate = (array: articleI[], order: directionI) => {
   array.sort(function (a, b) {
     let dateA: any = new Date(a.publishedAt.substr(0, a.publishedAt.indexOf("T"))); //prettier-ignore

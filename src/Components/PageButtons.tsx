@@ -1,15 +1,14 @@
 import { Button } from '@material-ui/core';
-import React from 'react'
-import { PropsI } from './Table'
+import { PropsI } from './Table/Table'
 
 interface Props extends PropsI{
     action: Function
 }
 
 
-const PageButtons = (props: Props) => {
+const PageButtons = (props: Props): JSX.Element[] => {
     
-    let buttonlist: any[] = [];
+    let buttonlist:JSX.Element[] = [];
 
 
     for(let i = 0; i < ((props.array.length)/10 ); i ++ ){

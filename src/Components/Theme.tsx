@@ -6,32 +6,35 @@ import { Typography, CssBaseline } from "@material-ui/core";
 import { purple } from "@material-ui/core/colors";
 import { blue } from "@material-ui/core/colors";
 
-interface Props {}
+type palletI = 'dark' | 'light'
 
-const SwitchTheme = (props: Props) => {
-  const [darkState, setDarkState] = useState(true);
-  const palletType = darkState ? "dark" : "light";
+const SwitchTheme = () => {
+  const [state, setState] = useState<boolean>(true);
+  const palletType: palletI = state ? "dark" : "light";
+  const handleThemeChange = () =>  setState(!state)
+
   const theme = createTheme({
     palette: {
       type: palletType,
-      primary: darkState ? purple : blue,
-      secondary: darkState ? purple : blue,
+      primary: state ? purple : blue,
+      secondary: state ? purple : blue,
     },
   });
-
-  const handleThemeChange = () => {
-    setDarkState(!darkState);
-  };
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+
+
+
       <div className="toggle">
         <Typography>
           {palletType === "light" ? "dark mode" : "light mode"}
         </Typography>
-        <Switch checked={darkState} onChange={handleThemeChange} />
+        <Switch checked={state} onChange={handleThemeChange} />
       </div>
+
+
       <App />
     </ThemeProvider>
   );

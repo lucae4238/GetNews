@@ -1,8 +1,7 @@
 import React from "react";
 import { Typography } from "@material-ui/core";
-interface Props {}
 
-const NoResults = (props: Props) => {
+const NoResults : React.FC = () => {
   return (
     <div className="centered">
       <Typography  variant="h1">

@@ -1,32 +1,28 @@
 import React from "react";
-import { articleI } from "../Redux/Actions/newsActionTypes";
+import { articleI } from "../../Redux/Actions/newsActionTypes";
 import {
   Table,
   TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
-  TableSortLabel,
   makeStyles,
 } from "@material-ui/core";
 import { useState } from "react";
-import sortByDate from "../SortFunctions/SortByDate";
-import PageButtons from "./PageButtons";
+import sortByDate from "../../SortFunctions/SortByDate";
+import PageButtons from "../PageButtons";
 import RowNews from "./RowNews";
-import NoResults from "./NoResults";
+import NoResults from "../NoResults";
+import  TableHeader  from "./TableHead";
 
 export type directionI = "asc" | "desc";
 
 export interface PropsI {
   array: articleI[];
 }
+
+
 const useStyles = makeStyles({
   table: {
     maxWidth: 1350,
-  },
-  headers: {
-    width: "20%",
   },
 });
 
@@ -35,6 +31,7 @@ export const MyTable = (props: PropsI) => {
   const [direction, setDirection] = useState<directionI>("asc");
   const [bool, setBool] = useState<boolean>(false);
   const [page, setPage] = useState<number>(0);
+  const classes = useStyles();
 
 
   const handleSort = () => {
@@ -51,7 +48,6 @@ export const MyTable = (props: PropsI) => {
   //Buttons for pagination
   let buttonlist: any[] = PageButtons({ array: props.array, action: setPage });
 
-  const classes = useStyles();
   if (props.array.length === 0) {
     return <NoResults />  //ERROR HANDLER
   } else
@@ -59,25 +55,11 @@ export const MyTable = (props: PropsI) => {
       <>
         <TableContainer>
           <Table className={classes.table}>
-            <TableHead>
-              <TableRow>
-                <TableCell className={classes.headers}>Image</TableCell>
-                <TableCell className={classes.headers}>Source</TableCell>
-                <TableCell width="5%">Author</TableCell>
-                <TableCell className={classes.headers}>Title</TableCell>
-                <TableCell
-                className={classes.headers}>
-                  <TableSortLabel
-                    active={bool}
-                    direction={direction}
-                    onClick={handleSort}
-                  >
-                    Date
-                  </TableSortLabel>
-                </TableCell>
-                <TableCell>URL</TableCell>
-              </TableRow>
-            </TableHead>
+            <TableHeader
+              isActive={bool}
+              direction={direction}
+              handleSort={handleSort}
+            />
             <TableBody>
               {list &&
                 list.map((e) => (
@@ -88,7 +70,7 @@ export const MyTable = (props: PropsI) => {
                     urlToImage={e.urlToImage}
                     url={e.url}
                     author={e.author}
-                    source={{ name: e.source.name }}
+                    source={e.source}
                   />
                 ))}
             </TableBody>

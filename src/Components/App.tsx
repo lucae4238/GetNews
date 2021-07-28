@@ -4,13 +4,13 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getNews } from "../Redux/Actions/newsActions";
 import { RootStore } from "../Redux/store";
-import { MyTable } from "./Table";
+import { MyTable } from "./Table/Table";
 
 function App() {
   const articles = useSelector((state: RootStore) => state.articles);
   const loading = useSelector((state: RootStore) => state.loading);
   const dispatch = useDispatch();
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState<string>("");
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
