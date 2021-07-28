@@ -3,11 +3,16 @@
 
 # Features
 
+<ul>
+  <li>Filter your search with the search input</li>
+    <li>Switch between light and dark mode</li>
+    <li>Paginated Results</li>
+    <li>Links to each article in the URL button</li>
+  </ul>
 
-•Filter your search with the search input
-•Switch between light and dark mode
-•Paginated Results
-•Links to each article in the URL button
+
+
+
 
 
 # How to run it 
