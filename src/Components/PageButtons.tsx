@@ -15,12 +15,12 @@ const PageButtons = (props: Props) => {
     for(let i = 0; i < ((props.array.length)/10 ); i ++ ){
       buttonlist.push(
         <Button key={i} onClick={() => {
-          props.action(i)
+          props.action(i * 10)
          window.scroll(0,0)}}>
           {(i + 1)}
         </Button>
       )
-    }
+    }  
     return buttonlist
 }
 

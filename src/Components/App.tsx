@@ -1,9 +1,9 @@
-import { Grid, TextField } from "@material-ui/core";
+import { CircularProgress, Grid, TextField } from "@material-ui/core";
 
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getNews } from "./Actions/newsActions";
-import { RootStore } from "./store";
+import { getNews } from "../Redux/Actions/newsActions";
+import { RootStore } from "../Redux/store";
 import { MyTable } from "./Table";
 
 function App() {
@@ -21,27 +21,38 @@ function App() {
   }, [dispatch]);
 
   if (loading) {
-    return <>loading...</>;
+    return (
+      <div className="centered">
+        <CircularProgress size="7rem" />;
+      </div>
+    );
   }
 
   return (
-    <Grid container justify="center" spacing={2} alignItems="center" direction="column">
-      <hr />
+    <Grid
+      container
+      justify="center"
+      spacing={2}
+      alignItems="center"
+      direction="column"
+    >
+    
+
       <Grid item>
         <TextField
-
-          placeholder="search AI related news!"
+          placeholder="Search for gaming related news!"
           autoFocus={true}
           value={input}
           onChange={handleInputChange}
-          // fullWidth={true}
           margin="dense"
+          fullWidth={true}
+          id='txt'
         />
       </Grid>
       <Grid item>
         <MyTable
           array={articles.filter(
-            (e) =>
+            (e) => //
               e.title.toLowerCase().includes(input.toLowerCase()) ||
               e.content.toLowerCase().includes(input.toLowerCase())
           )}

@@ -8,7 +8,7 @@ export const getNews = () => async (dispatch: Dispatch<newsDispatchTypes>) => {
         dispatch({
             type: NEWS_LOADING
         }) 
-    const res = await axios.get('https://newsapi.org/v2/everything?q=software&apiKey=6c1b0c58f8544dccb30f21bfaa6fa7b5&pageSize=100')
+    const res = await axios.get('https://newsapi.org/v2/everything?q=gaming&apiKey=6c1b0c58f8544dccb30f21bfaa6fa7b5&pageSize=100')
 
     dispatch({
         type: NEWS_SUCCESS,
